@@ -1,0 +1,36 @@
+﻿<UserControl x:Class="CaliburnMicroAvalonDockBug.Views.DesignSurfaceView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:CaliburnMicroAvalonDockBug.Views"
+             xmlns:viewModels="clr-namespace:CaliburnMicroAvalonDockBug.ViewModels"
+             xmlns:cm="http://caliburnmicro.com"
+             mc:Ignorable="d" 
+             d:DesignHeight="450" d:DesignWidth="800"
+             d:DataContext="{d:DesignInstance Type=viewModels:DesignSurfaceViewModel,
+                                     IsDesignTimeCreatable=True}"
+             HorizontalAlignment="Stretch"
+             VerticalContentAlignment="Stretch">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"></RowDefinition>
+            <RowDefinition Height="*"></RowDefinition>
+        </Grid.RowDefinitions>
+        <StackPanel Grid.Row="0" HorizontalAlignment="Left">
+            <Button x:Name="DrawShape" Content="Draw Shape" Width="100" Height="50" cm:Message.Attach="DrawShape"></Button>
+        </StackPanel>
+        <Border  Grid.Row="1" Background="Transparent" BorderThickness="5" BorderBrush="Black">
+            <Canvas x:Name="DesignSurfaceCanvas" Background="AliceBlue" Visibility="Visible">
+                <Border Canvas.Left="10" 
+                        Canvas.Top="10" 
+                        Height="75" 
+                        Width="150" 
+                        Background="Blue"
+                        CornerRadius="5">
+                    <TextBlock Text="From View" FontSize="20" VerticalAlignment="Center" HorizontalAlignment="Center"></TextBlock>
+                </Border>
+            </Canvas>
+        </Border>
+    </Grid>
+</UserControl>
