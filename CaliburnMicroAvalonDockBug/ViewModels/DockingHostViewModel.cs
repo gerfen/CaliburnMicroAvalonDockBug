@@ -1,9 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.IO;
 using System.Linq;
-using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using AvalonDock;
@@ -18,7 +16,10 @@ namespace CaliburnMicroAvalonDockBug.ViewModels
 {
     public class DockingHostViewModel : Conductor<Screen>.Collection.OneActive
     {
-        private ILogger<DockingHostViewModel> logger_;
+        private readonly ILogger<DockingHostViewModel> logger_;
+        private readonly DesignSurfaceViewModel designSurfaceViewModel_;
+        private readonly Tab1ViewModel tab1ViewModel_;
+        private readonly Tab2ViewModel tab2ViewModel_;
 
         private string _lastLayout = "";
 
@@ -47,15 +48,29 @@ namespace CaliburnMicroAvalonDockBug.ViewModels
 
         private DockingManager _dockingManager = new();
 
+
+        // Required for design-time binding.
         public DockingHostViewModel()
         {
-            
+            //no-op
         }
-
+// define the conditional compilation symbol to enabled this path
+#if USE_CONSTRUCTOR_DI
+        public DockingHostViewModel(ILogger<DockingHostViewModel> logger, DesignSurfaceViewModel designSurfaceViewModel, Tab1ViewModel tab1ViewModel, Tab2ViewModel tab2ViewModel)
+        {
+            logger_ = logger;
+            designSurfaceViewModel_ = designSurfaceViewModel;
+            tab1ViewModel_ = tab1ViewModel;
+            tab2ViewModel_ = tab2ViewModel;
+        }
+#else
         public DockingHostViewModel(ILogger<DockingHostViewModel> logger)
         {
             logger_ = logger;
         }
+#endif
+
+        
 
         /// <summary>
         /// Binds the viewmodel to it's view prior to activating so that the OnViewAttached method of the
@@ -66,6 +81,10 @@ namespace CaliburnMicroAvalonDockBug.ViewModels
         private async Task ActivateItemAsync<TViewModel>(CancellationToken cancellationToken = default)
             where TViewModel : Screen
         {
+
+            // NOTE the hack to get OnViewAttached and OnViewReady methods to be called on conducted ViewModels.  Also note
+            //   OnViewLoaded is not called.
+
             var viewModel = IoC.Get<TViewModel>();
             viewModel.Parent = this;
             viewModel.ConductWith(this);
@@ -80,22 +99,20 @@ namespace CaliburnMicroAvalonDockBug.ViewModels
             var item = Items.OfType<T>().FirstOrDefault(x => x.DisplayName == displayName);
             if (item == null)
             {
-                item = (T)Activator.CreateInstance(typeof(T));
+                var typeToActivate = typeof(T);
+                item = (T)Activator.CreateInstance(typeToActivate)!;
+                if (item == null)
+                {
+                    throw new NullReferenceException($"Cannot activate {typeToActivate.Name}");
+                }
                 item.Parent = this;
                 item.ConductWith(this);
                 item.DisplayName = displayName;
-                //item.IsDirty = ++_createCount % 2 > 0;
             }
             return ActivateItemAsync(item, CancellationToken.None);
         }
 
-        protected override Task OnActivateAsync(CancellationToken cancellationToken)
-        {
-            // subscribe to the event aggregator so that we can listen to messages
-            //EventAggregator.SubscribeOnUIThread(this);
-
-            return base.OnActivateAsync(cancellationToken);
-        }
+  
 
         protected override Task OnDeactivateAsync(bool close, CancellationToken cancellationToken)
         {
@@ -104,8 +121,6 @@ namespace CaliburnMicroAvalonDockBug.ViewModels
                 SaveLayout();
             }
 
-            // unsubscribe to the event aggregator
-            //EventAggregator.Unsubscribe(this);
             return base.OnDeactivateAsync(close, cancellationToken);
         }
 
@@ -140,12 +155,36 @@ namespace CaliburnMicroAvalonDockBug.ViewModels
         private async Task Initialize()
         {
             Items.Clear();
-            // documents
+
+// define the conditional compilation symbol to enabled this path
+#if USE_CONSTRUCTOR_DI
+
+            // NOTE the hack to get OnViewAttached and OnViewReady methods to be called on conducted ViewModels.  Also note
+            //   OnViewLoaded is not called.
+
+            await base.ActivateItemAsync(tab1ViewModel_);
+            tab1ViewModel_.Parent = this;
+            tab1ViewModel_.ConductWith(this);
+            var tab1View = ViewLocator.LocateForModel(tab1ViewModel_, null, null);
+            ViewModelBinder.Bind(tab1ViewModel_, tab1View, null);
+
+            await base.ActivateItemAsync(tab2ViewModel_);
+            tab2ViewModel_.Parent = this;
+            tab2ViewModel_.ConductWith(this);
+            var tab2View = ViewLocator.LocateForModel(tab2ViewModel_, null, null);
+            ViewModelBinder.Bind(tab2ViewModel_, tab2View, null);
+
+            await base.ActivateItemAsync(designSurfaceViewModel_);
+            designSurfaceViewModel_.Parent = this;
+            designSurfaceViewModel_.ConductWith(this);
+            var designSurfaceView = ViewLocator.LocateForModel(designSurfaceViewModel_, null, null);
+            ViewModelBinder.Bind(designSurfaceViewModel_, designSurfaceView, null);
+
+#else
             await ActivateItemAsync<Tab1ViewModel>();
             await ActivateItemAsync<Tab2ViewModel>();
-
-            // tools
             await ActivateItemAsync<DesignSurfaceViewModel>();
+#endif
 
             LoadWindows();
 
@@ -195,6 +234,12 @@ namespace CaliburnMicroAvalonDockBug.ViewModels
                     var item = Items.Cast<IAvalonDockWindow>()
                         .FirstOrDefault(item => item.ContentId == e.Model.ContentId);
 
+                    // attempt to reactivate the view model to see if we can get CM to wire up the model to the view model
+                    if (item is Screen screen)
+                    {
+                        await base.ActivateItemAsync(screen);
+                    }
+                   
                     e.Content = item;
 
                 }

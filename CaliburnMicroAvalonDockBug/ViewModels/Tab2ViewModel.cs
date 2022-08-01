@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using CaliburnMicroAvalonDockBug.ViewModels.Panes;
+﻿using CaliburnMicroAvalonDockBug.ViewModels.Panes;
 using Microsoft.Extensions.Logging;
 
 namespace CaliburnMicroAvalonDockBug.ViewModels

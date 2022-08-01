@@ -21,7 +21,7 @@
             <Button x:Name="DrawShape" Content="Draw Shape" Width="100" Height="50" cm:Message.Attach="DrawShape"></Button>
         </StackPanel>
         <Border  Grid.Row="1" Background="Transparent" BorderThickness="5" BorderBrush="Black">
-            <Canvas x:Name="DesignSurfaceCanvas" Background="AliceBlue" Visibility="Visible">
+            <Canvas x:Name="DesignSurfaceCanvas" Background="AliceBlue">
                 <Border Canvas.Left="10" 
                         Canvas.Top="10" 
                         Height="75" 

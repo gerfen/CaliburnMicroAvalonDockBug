@@ -1,6 +1,7 @@
 ﻿using System.IO;
 using System.Windows.Input;
 using System.Windows.Media;
+using Microsoft.Extensions.Logging;
 
 namespace CaliburnMicroAvalonDockBug.ViewModels.Panes;
 

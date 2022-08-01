@@ -6,6 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Threading;
 using Caliburn.Micro;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -47,7 +48,7 @@ namespace CaliburnMicroAvalonDockBug
         private void SetupLogging()
         {
 
-            var fullPath = Path.Combine(Environment.CurrentDirectory, "Logs\\ClearDashboard.log");
+            var fullPath = Path.Combine(Environment.CurrentDirectory, "Logs\\CaliburnMicroAvalonDockBug.log");
             var level = LogEventLevel.Information;
 #if DEBUG
             level = LogEventLevel.Verbose;
@@ -68,7 +69,7 @@ namespace CaliburnMicroAvalonDockBug
 
         protected override async void OnStartup(object sender, StartupEventArgs e)
         {
-            Logger.LogInformation("ClearDashboard application is starting.");
+            Logger.LogInformation("Application is starting.");
 
             // Allow the ShellView to be created.
             await DisplayRootViewForAsync<DockingHostViewModel>();
@@ -105,5 +106,37 @@ namespace CaliburnMicroAvalonDockBug
             Grid.SetColumn(frame, 0);
             grid.Children.Add(frame);
         }
+
+        protected override object GetInstance(Type service, string key)
+        {
+            return Host.Services.GetService(service);
+        }
+
+        protected override IEnumerable<object> GetAllInstances(Type service)
+        {
+            return Host.Services.GetServices(service);
+        }
+
+    
+        protected override void OnExit(object sender, EventArgs e)
+        {
+            Logger.LogInformation("Application is exiting.");
+            base.OnExit(sender, e);
+        }
+      
+
+        /// <summary>
+        /// Handle the system wide exceptions
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        protected override void OnUnhandledException(object sender, DispatcherUnhandledExceptionEventArgs e)
+        {
+            e.Handled = true;
+
+            Logger.LogError(e.Exception, "An unhandled error as occurred");
+            MessageBox.Show(e.Exception.Message, "An error as occurred", MessageBoxButton.OK);
+        }
+
     }
 }

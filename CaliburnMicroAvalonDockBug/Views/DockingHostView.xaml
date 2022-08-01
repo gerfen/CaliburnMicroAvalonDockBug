@@ -58,23 +58,23 @@
             AnchorablesSource="{Binding Tools}"
             DocumentsSource="{Binding Documents}">
             <DockingManager.LayoutItemTemplateSelector>
-                <panes:DockingHostPanesTemplateSelector>
-                    <panes:DockingHostPanesTemplateSelector.Tab1ViewDataTemplate>
+                <panes:PanesTemplateSelector>
+                    <panes:PanesTemplateSelector.Tab1ViewDataTemplate>
                         <DataTemplate>
                             <views:Tab1View />
                         </DataTemplate>
-                    </panes:DockingHostPanesTemplateSelector.Tab1ViewDataTemplate>
-                    <panes:DockingHostPanesTemplateSelector.Tab2ViewDataTemplate>
+                    </panes:PanesTemplateSelector.Tab1ViewDataTemplate>
+                    <panes:PanesTemplateSelector.Tab2ViewDataTemplate>
                         <DataTemplate>
                             <views:Tab2View />
                         </DataTemplate>
-                    </panes:DockingHostPanesTemplateSelector.Tab2ViewDataTemplate>
-                    <panes:DockingHostPanesTemplateSelector.DesignSurfaceDataTemplate>
+                    </panes:PanesTemplateSelector.Tab2ViewDataTemplate>
+                    <panes:PanesTemplateSelector.DesignSurfaceDataTemplate>
                         <DataTemplate>
                             <views:DesignSurfaceView />
                         </DataTemplate>
-                    </panes:DockingHostPanesTemplateSelector.DesignSurfaceDataTemplate>
-                </panes:DockingHostPanesTemplateSelector>
+                    </panes:PanesTemplateSelector.DesignSurfaceDataTemplate>
+                </panes:PanesTemplateSelector>
             </DockingManager.LayoutItemTemplateSelector>
 
             <DockingManager.LayoutItemContainerStyleSelector>
@@ -94,7 +94,7 @@
                             <Setter Property="Title" Value="{Binding Model.Title}" />
                             <Setter Property="CanClose" Value="True" />
                             <Setter Property="IconSource" Value="{Binding Model.IconSource}" />
-                            <!--<Setter Property="Visibility" Value="{Binding Model.IsVisible, Mode=TwoWay, Converter={StaticResource BoolToVisibilityConverter}, ConverterParameter={StaticResource FALSE}}" />-->
+                            <Setter Property="Visibility" Value="{Binding Model.IsVisible, Mode=TwoWay, Converter={StaticResource BoolToVisibilityConverter}, ConverterParameter={StaticResource FALSE}}" />
                             <Setter Property="ContentId" Value="{Binding Model.ContentId}" />
                             <Setter Property="IsSelected" Value="{Binding Model.IsSelected, Mode=TwoWay}" />
                             <Setter Property="IsActive" Value="{Binding Model.IsActive, Mode=TwoWay}" />
@@ -110,7 +110,7 @@
             <LayoutRoot>
                 <LayoutPanel Orientation="Vertical">
                     <LayoutDocumentPane />
-                    <LayoutAnchorablePane Name="ToolsPane" DockHeight="150" />
+                    <LayoutAnchorablePane Name="ToolsPane" DockHeight="300" />
                 </LayoutPanel>
             </LayoutRoot>
         </DockingManager>

@@ -5,14 +5,14 @@ namespace CaliburnMicroAvalonDockBug.ViewModels
 {
     public class ShellViewModel : Screen
     {
-        private readonly Logger<ShellViewModel> logger_;
+        private readonly ILogger<ShellViewModel> logger_;
 
         public ShellViewModel()
         {
             
         }
 
-        public ShellViewModel(Logger<ShellViewModel> logger)
+        public ShellViewModel(ILogger<ShellViewModel> logger)
         {
             logger_ = logger;
         }

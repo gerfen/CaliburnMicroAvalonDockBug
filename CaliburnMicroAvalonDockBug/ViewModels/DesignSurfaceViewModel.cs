@@ -4,6 +4,9 @@ using Microsoft.Extensions.Logging;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
+using System.Linq;
+//using AvalonDock.Controls;
+using CaliburnMicroAvalonDockBug.Extensions;
 
 namespace CaliburnMicroAvalonDockBug.ViewModels
 {
@@ -29,12 +32,14 @@ namespace CaliburnMicroAvalonDockBug.ViewModels
 
         protected override void OnViewAttached(object view, object context)
         {
+            logger_.LogInformation("DesignSurfaceViewModel - OnViewAttached Called.");
             SetCanvasReference(view);
             base.OnViewAttached(view, context);
         }
 
         protected override void OnViewLoaded(object view)
         {
+            logger_.LogInformation("DesignSurfaceViewModel - OnViewLoaded Called.");
             base.OnViewLoaded(view);
         }
 
@@ -42,6 +47,7 @@ namespace CaliburnMicroAvalonDockBug.ViewModels
 
         protected override void OnViewReady(object view)
         {
+            logger_.LogInformation("DesignSurfaceViewModel - OnViewReady Called.");
             SetCanvasReference(view);
             base.OnViewReady(view);
         }
@@ -53,6 +59,7 @@ namespace CaliburnMicroAvalonDockBug.ViewModels
                 if (view is DesignSurfaceView projectDesignSurfaceView)
                 {
                     View = projectDesignSurfaceView;
+                    var canvases = View.FindVisualChildren<Canvas>();
                     DesignSurfaceCanvas = (Canvas)projectDesignSurfaceView.FindName("DesignSurfaceCanvas");
                 }
 
@@ -62,7 +69,7 @@ namespace CaliburnMicroAvalonDockBug.ViewModels
 
         public void DrawShape()
         {
-            
+              logger_.LogInformation("DesignSurfaceViewModel.DrawShape called.");
               var border = new Border
               {
                   Height = 75,
