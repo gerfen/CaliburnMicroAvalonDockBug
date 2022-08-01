@@ -26,19 +26,19 @@ namespace CaliburnMicroAvalonDockBug.Views.Panes
             var logger = IoC.Get<ILogger<PanesStyleSelector>>();
             if (item is Tab1ViewModel)
             {
-                logger.LogInformation("PanesStyleSelector.SelectStyle called for Tab1ViewModel, - returning DocumentStyle");
+                //logger.LogInformation("PanesStyleSelector.SelectStyle called for Tab1ViewModel, - returning DocumentStyle");
                 return DocumentStyle;
             }
 
             if (item is Tab2ViewModel)
             {
-                logger.LogInformation("PanesStyleSelector.SelectStyle called for Tab2ViewModel, - returning DocumentStyle");
+                //logger.LogInformation("PanesStyleSelector.SelectStyle called for Tab2ViewModel, - returning DocumentStyle");
                 return DocumentStyle;
             }
 
             if (item is DesignSurfaceViewModel)
             {
-                logger.LogInformation("PanesStyleSelector.SelectStyle called for DesignSurfaceViewModel, - returning DocumentStyle");
+                //logger.LogInformation("PanesStyleSelector.SelectStyle called for DesignSurfaceViewModel, - returning DocumentStyle");
                 return DocumentStyle;
             }
             return base.SelectStyle(item, container);

@@ -32,14 +32,14 @@ namespace CaliburnMicroAvalonDockBug.ViewModels
 
         protected override void OnViewAttached(object view, object context)
         {
-            logger_.LogInformation("DesignSurfaceViewModel - OnViewAttached Called.");
+            logger_.LogInformation("DesignSurfaceViewModel.OnViewAttached Called.");
             SetCanvasReference(view);
             base.OnViewAttached(view, context);
         }
 
         protected override void OnViewLoaded(object view)
         {
-            logger_.LogInformation("DesignSurfaceViewModel - OnViewLoaded Called.");
+            logger_.LogInformation("DesignSurfaceViewModel.OnViewLoaded Called.");
             base.OnViewLoaded(view);
         }
 
@@ -47,7 +47,7 @@ namespace CaliburnMicroAvalonDockBug.ViewModels
 
         protected override void OnViewReady(object view)
         {
-            logger_.LogInformation("DesignSurfaceViewModel - OnViewReady Called.");
+            logger_.LogInformation("DesignSurfaceViewModel.OnViewReady Called.");
             SetCanvasReference(view);
             base.OnViewReady(view);
         }
@@ -63,7 +63,7 @@ namespace CaliburnMicroAvalonDockBug.ViewModels
                     DesignSurfaceCanvas = (Canvas)projectDesignSurfaceView.FindName("DesignSurfaceCanvas");
                 }
 
-                DrawShape();
+                //DrawShape();
             }
         }
 

@@ -1,20 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Configuration;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 using Caliburn.Micro;
 using Microsoft.Extensions.Logging;
+using System.Windows;
+using System.Windows.Controls;
+using System.Windows.Media;
 
 namespace CaliburnMicroAvalonDockBug.Views
 {
@@ -28,6 +17,13 @@ namespace CaliburnMicroAvalonDockBug.Views
         {
             logger_ = IoC.Get<ILogger<DesignSurfaceView>>();
             InitializeComponent();
+            
+        }
+
+        protected override void OnInitialized(EventArgs e)
+        {
+            DrawControl();
+            base.OnInitialized(e);
         }
 
         public void AddControl(FrameworkElement control)
@@ -37,6 +33,35 @@ namespace CaliburnMicroAvalonDockBug.Views
             DesignSurfaceCanvas.Children.Add(control);
             //DesignSurfaceCanvas.Dispatcher.Invoke(() => { DesignSurfaceCanvas.Children.Add(control); });
 
+        }
+
+        private void DrawControl()
+        {
+            logger_.LogInformation("Drawing `From View` shape from the view's OnInitialized method.");
+            var border = new Border
+            {
+                Height = 75,
+                Width = 150,
+                Background = Brushes.DarkOrange,
+                CornerRadius = new CornerRadius(5)
+            };
+
+            var textBlock = new TextBlock
+            {
+                Text = "From View",
+                FontSize = 20,
+                VerticalAlignment = VerticalAlignment.Center,
+                HorizontalAlignment = HorizontalAlignment.Center
+
+            };
+
+            border.Child = textBlock;
+
+
+            Canvas.SetTop(border, 95.0);
+            Canvas.SetLeft(border, 10.0);
+
+            AddControl(border);
         }
     }
 }

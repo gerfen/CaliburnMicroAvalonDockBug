@@ -73,7 +73,7 @@ namespace CaliburnMicroAvalonDockBug.ViewModels
         
 
         /// <summary>
-        /// Binds the viewmodel to it's view prior to activating so that the OnViewAttached method of the
+        /// Binds the viewmodel to its view prior to activating so that the OnViewAttached method of the
         /// child viewmodel are called.
         /// </summary>
         /// <typeparam name="TViewModel"></typeparam>
@@ -82,7 +82,7 @@ namespace CaliburnMicroAvalonDockBug.ViewModels
             where TViewModel : Screen
         {
 
-            // NOTE the hack to get OnViewAttached and OnViewReady methods to be called on conducted ViewModels.  Also note
+            // NOTE:  This is the hack to get OnViewAttached and OnViewReady methods to be called on conducted ViewModels.  Also note
             //   OnViewLoaded is not called.
 
             var viewModel = IoC.Get<TViewModel>();

@@ -39,19 +39,19 @@ namespace CaliburnMicroAvalonDockBug.Views.Panes
 
             if (item is Tab1ViewModel)
             {
-                logger.LogInformation("PanesTemplateSelector - returning Tab1DataTemplate");
+                //logger.LogInformation("PanesTemplateSelector - returning Tab1DataTemplate");
                 return Tab1ViewDataTemplate;
             }
 
             if (item is Tab2ViewModel)
             {
-                logger.LogInformation("PanesTemplateSelector - returning Tab2DataTemplate");
+                //logger.LogInformation("PanesTemplateSelector - returning Tab2DataTemplate");
                 return Tab2ViewDataTemplate;
             }
 
             if (item is DesignSurfaceViewModel)
             {
-                logger.LogInformation("PanesTemplateSelector - returning DesignSurfaceViewModel");
+                //logger.LogInformation("PanesTemplateSelector - returning DesignSurfaceViewModel");
                 return DesignSurfaceDataTemplate;
             }
 

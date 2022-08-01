@@ -1,20 +1,17 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Threading;
-using Caliburn.Micro;
+﻿using Caliburn.Micro;
+using CaliburnMicroAvalonDockBug.Extensions;
+using CaliburnMicroAvalonDockBug.ViewModels;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
-using CaliburnMicroAvalonDockBug.Extensions;
-using CaliburnMicroAvalonDockBug.ViewModels;
 using Serilog;
 using Serilog.Events;
+using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Windows;
+using System.Windows.Controls;
+using System.Windows.Threading;
 
 namespace CaliburnMicroAvalonDockBug
 {
